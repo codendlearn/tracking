@@ -1,7 +1,7 @@
 import app from 'firebase/app';
 import 'firebase';
 import 'firebase/firestore';
-import { IService } from '../common/models/Service';
+import { IService } from '../common/models/IService';
 
 export class FirestoreService {
   private App: app.app.App;
@@ -45,7 +45,7 @@ export class FirestoreService {
       this.Firestore.collection(ServiceCollection)
         .add({
           name: service.name,
-          order: service.order,
+          displayOrder: service.displayOrder,
           ownerId: service.ownerId,
         })
         .then((data) => {

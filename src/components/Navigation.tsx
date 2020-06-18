@@ -85,7 +85,7 @@ const NavigationBar: React.FC = (props: any) => {
       <AppBar position='fixed' className={classes.appBar}>
         <Toolbar>
           <Typography variant='h6' className={classes.title} noWrap>
-            Template Project
+            Tracking
           </Typography>
           <User />
         </Toolbar>

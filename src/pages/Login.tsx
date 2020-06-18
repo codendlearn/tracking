@@ -37,7 +37,7 @@ const Login = () => {
   return (
     <div>
       <Button variant='outlined' color='primary' onClick={login}>
-        {state.user ? 'Logout' : 'Login'}{' '}
+        {state.user ? 'Logout' : 'Login'}
       </Button>
     </div>
   );

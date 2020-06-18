@@ -1,5 +1,6 @@
+import { services } from './../common/data';
 import { FirestoreService } from './../services/FirestoreService';
-import { IService } from '../common/models/Service';
+import { IService } from '../common/models/IService';
 
 export class ServiceRepository {
   firebaseService: FirestoreService;
@@ -12,26 +13,37 @@ export class ServiceRepository {
     return this.firebaseService.Add(this.ServiceCollection, newService);
   }
 
+  async AddSubscriber(userId: string, serviceId: string) {
+    return new Promise<void>((resolve) => {
+      var service = services.find((x) => x.id === serviceId);
+      service?.subscribers?.push({ userId, serviceId, payments: [] });
+      resolve();
+    });
+  }
+
   async GetServices() {
     return new Promise<IService[]>((resolve, reject) => {
-      this.firebaseService
-        .GetServices('tracking')
-        .then((docs) => {
-          var res = docs.map(
-            (x): IService => {
-              let service = x.data();
-              return {
-                name: service['name'],
-                id: x.id,
-                order: service['order'],
-                ownerId: service['ownerId'],
-              };
-            }
-          );
+      setTimeout(() => resolve(services), 10);
 
-          resolve(res);
-        })
-        .catch((reason) => reject(reason));
+      // this.firebaseService
+      //   .GetServices('tracking')
+      //   .then((docs) => {
+      //     var res = docs.map(
+      //       (x): IService => {
+      //         let service = x.data();
+      //         return {
+      //           name: service['name'],
+      //           id: x.id,
+      //           displayOrder: service['displayOrder'] as number,
+      //           ownerId: service['ownerId'],
+      //           imageName: '',
+      //         };
+      //       }
+      //     );
+
+      //     resolve(res);
+      //   })
+      //   .catch((reason) => reject(reason));
     });
   }
 }

@@ -1,12 +1,14 @@
 import { UserRepository } from '../repositories/UserRepository';
 import { FirestoreService } from '../services/FirestoreService';
 import React, { createContext, useContext } from 'react';
+import { ServiceRepository } from '../repositories/ServiceRepository';
 
 const firestoreService = new FirestoreService();
 const userRepository = new UserRepository(firestoreService);
+const serviceRepository = new ServiceRepository(firestoreService);
 const dependencies = {
-  firestoreService,
   userRepository,
+  serviceRepository,
 };
 
 const DependenciesContext = createContext<typeof dependencies>(dependencies);
