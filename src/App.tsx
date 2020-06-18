@@ -1,8 +1,8 @@
-import React from 'react';
-import './App.css';
-import Navigation from './components/Navigation';
-import { MuiThemeProvider, CssBaseline } from '@material-ui/core';
-import theme from './theme';
+import React from 'react'
+import './App.css'
+import Navigation from './components/Navigation'
+import { MuiThemeProvider, CssBaseline } from '@material-ui/core'
+import theme from './theme'
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
       <CssBaseline />
       <Navigation />
     </MuiThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App

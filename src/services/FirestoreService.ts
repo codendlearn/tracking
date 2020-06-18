@@ -1,12 +1,12 @@
-import app from 'firebase/app';
-import 'firebase';
-import 'firebase/firestore';
-import { IService } from '../common/models/IService';
+import app from 'firebase/app'
+import 'firebase'
+import 'firebase/firestore'
+import { IService } from '../common/models/IService'
 
 export class FirestoreService {
-  private App: app.app.App;
-  private Firestore: app.firestore.Firestore;
-  private provider: app.auth.GoogleAuthProvider;
+  private App: app.app.App
+  private Firestore: app.firestore.Firestore
+  private provider: app.auth.GoogleAuthProvider
 
   firebaseConfig: any = {
     apiKey: 'AIzaSyCYhnIPdcs1XQk06m_5DLxg2hTTTX4wGL0',
@@ -17,27 +17,27 @@ export class FirestoreService {
     messagingSenderId: '970131480634',
     appId: '1:970131480634:web:2382883acc807aa83f1503',
     measurementId: 'G-C15DMTZ9NQ',
-  };
+  }
 
   constructor() {
-    this.App = app.initializeApp(this.firebaseConfig);
-    this.Firestore = this.App.firestore();
-    this.provider = new app.auth.GoogleAuthProvider();
+    this.App = app.initializeApp(this.firebaseConfig)
+    this.Firestore = this.App.firestore()
+    this.provider = new app.auth.GoogleAuthProvider()
   }
 
   GetCurrentUesr() {
-    return this.App.auth().currentUser;
+    return this.App.auth().currentUser
   }
   async SignInAnonymously(): Promise<app.auth.UserCredential> {
-    return this.App.auth().signInAnonymously();
+    return this.App.auth().signInAnonymously()
   }
 
   async SignInWithGoogle(): Promise<app.auth.UserCredential> {
-    return this.App.auth().signInWithPopup(this.provider);
+    return this.App.auth().signInWithPopup(this.provider)
   }
 
   SignOut() {
-    return this.App.auth().signOut();
+    return this.App.auth().signOut()
   }
 
   async Add(ServiceCollection: string, service: IService) {
@@ -50,11 +50,11 @@ export class FirestoreService {
         })
         .then((data) => {
           if (data) {
-            resolve(data.id);
-          } else reject('creation failed');
+            resolve(data.id)
+          } else reject('creation failed')
         })
-        .catch((reason) => reject(reason));
-    });
+        .catch((reason) => reject(reason))
+    })
   }
 
   async GetServices(
@@ -67,11 +67,11 @@ export class FirestoreService {
         .get()
         .then((data) => {
           if (data) {
-            resolve(data.docs);
-          } else reject('no data');
+            resolve(data.docs)
+          } else reject('no data')
         })
-        .catch((reason) => reject(reason));
-    });
+        .catch((reason) => reject(reason))
+    })
   }
 
   async GetUsers(ServiceCollection: string) {
@@ -80,10 +80,10 @@ export class FirestoreService {
         .get()
         .then((data) => {
           if (data) {
-            resolve(data.docs);
-          } else reject('no data');
+            resolve(data.docs)
+          } else reject('no data')
         })
-        .catch((reason) => reject(reason));
-    });
+        .catch((reason) => reject(reason))
+    })
   }
 }

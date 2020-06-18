@@ -1,20 +1,20 @@
-import React from 'react';
-import { useGlobalState, GlobalStateAction } from '../store/GlobalStore';
-import { IconButton, Menu, MenuItem, Avatar } from '@material-ui/core';
+import React from 'react'
+import { useGlobalState, GlobalStateAction } from '../store/GlobalStore'
+import { IconButton, Menu, MenuItem, Avatar } from '@material-ui/core'
 
 const User = () => {
-  const { state, dispatch } = useGlobalState();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const { state, dispatch } = useGlobalState()
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = (e: any) => {
-    console.log(e);
-    setAnchorEl(null);
-  };
+    console.log(e)
+    setAnchorEl(null)
+  }
 
   return (
     <>
@@ -54,7 +54,7 @@ const User = () => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default User;
+export default User

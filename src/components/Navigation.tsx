@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-import { NavLink, withRouter, Switch, Route } from 'react-router-dom';
-import Routes from '../Routes';
+import { NavLink, withRouter, Switch, Route } from 'react-router-dom'
+import Routes from '../Routes'
 
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import {
   AppBar,
   Toolbar,
@@ -14,17 +14,17 @@ import {
   ListItemText,
   Container,
   ListItemIcon,
-} from '@material-ui/core';
+} from '@material-ui/core'
 
 import {
   ExitToAppRounded,
   HomeRounded,
   InfoRounded,
   AppsRounded,
-} from '@material-ui/icons';
-import User from './User';
+} from '@material-ui/icons'
+import User from './User'
 
-let drawerWidth = 240;
+let drawerWidth = 240
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -59,27 +59,27 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 'auto',
     },
   })
-);
+)
 
 const NavigationBar: React.FC = (props: any) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   const activeRoute = (routeName: any) => {
-    return props.location.pathname === routeName ? true : false;
-  };
+    return props.location.pathname === routeName ? true : false
+  }
 
   const getIcon = (name: string) => {
     switch (name) {
       case 'Home':
-        return <HomeRounded />;
+        return <HomeRounded />
       case 'About':
-        return <InfoRounded />;
+        return <InfoRounded />
       case 'Login':
-        return <ExitToAppRounded />;
+        return <ExitToAppRounded />
       default:
-        return <AppsRounded />;
+        return <AppsRounded />
     }
-  };
+  }
   return (
     <div className={classes.root}>
       <AppBar position='fixed' className={classes.appBar}>
@@ -113,7 +113,7 @@ const NavigationBar: React.FC = (props: any) => {
                     <ListItemText primary={route.sidebarName} />
                   </MenuItem>
                 </NavLink>
-              );
+              )
             })}
           </MenuList>
         </div>
@@ -131,7 +131,7 @@ const NavigationBar: React.FC = (props: any) => {
         </Container>
       </main>{' '}
     </div>
-  );
-};
+  )
+}
 
-export default withRouter(NavigationBar);
+export default withRouter(NavigationBar)

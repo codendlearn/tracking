@@ -1,9 +1,9 @@
-import { Home, About, Login } from './pages';
+import { Home, About, Login } from './pages'
 
 export interface IRoute {
-  path: string;
-  sidebarName: string;
-  component: React.ComponentType;
+  path: string
+  sidebarName: string
+  component: React.ComponentType
 }
 
 const Routes: IRoute[] = [
@@ -22,6 +22,6 @@ const Routes: IRoute[] = [
     sidebarName: 'Login',
     component: Login,
   },
-];
+]
 
-export default Routes;
+export default Routes

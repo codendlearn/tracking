@@ -1,6 +1,6 @@
-import React from 'react';
-import { IUser } from '../common/models/IUser';
-import { IService } from '../common/models/IService';
+import React from 'react'
+import { IUser } from '../common/models/IUser'
+import { IService } from '../common/models/IService'
 import {
   FormControl,
   makeStyles,
@@ -11,7 +11,7 @@ import {
   Avatar,
   FormControlLabel,
   Checkbox,
-} from '@material-ui/core';
+} from '@material-ui/core'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,20 +22,20 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(3),
     },
   })
-);
+)
 
 interface IAddSubscriberProps {
-  users: IUser[];
-  service: IService;
-  onAdd: (userId: string, serviceId: string) => void;
+  users: IUser[]
+  service: IService
+  onAdd: (userId: string, serviceId: string) => void
 }
 
 const AddSubscriber: React.FC<IAddSubscriberProps> = (props) => {
-  const classes = useStyles();
+  const classes = useStyles()
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.name);
-    props.onAdd(event.target.name, props.service?.id ?? '');
-  };
+    console.log(event.target.name)
+    props.onAdd(event.target.name, props.service?.id ?? '')
+  }
 
   return (
     <div className={classes.root}>
@@ -65,7 +65,7 @@ const AddSubscriber: React.FC<IAddSubscriberProps> = (props) => {
           ))}
       </FormControl>
     </div>
-  );
-};
+  )
+}
 
-export default AddSubscriber;
+export default AddSubscriber

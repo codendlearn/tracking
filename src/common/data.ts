@@ -1,5 +1,5 @@
-import { IService, Interval } from './models/IService';
-import { IUser } from './models/IUser';
+import { IService, Interval } from './models/IService'
+import { IUser } from './models/IUser'
 
 export const users: IUser[] = [
   {
@@ -33,7 +33,7 @@ export const users: IUser[] = [
     name: 'Charan',
     profileImage: '',
   },
-];
+]
 
 export const services: IService[] = [
   {
@@ -99,4 +99,4 @@ export const services: IService[] = [
       currentParticipants: 1,
     },
   },
-];
+]
