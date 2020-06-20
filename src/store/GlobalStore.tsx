@@ -10,7 +10,7 @@ export enum GlobalStateAction {
   LoggedOut,
 }
 
-type Action =
+export type Action =
   | { type: GlobalStateAction.Busy }
   | { type: GlobalStateAction.Idle }
   | { type: GlobalStateAction.Error; error: string }

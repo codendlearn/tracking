@@ -1,12 +1,12 @@
-import app from 'firebase/app'
-import 'firebase'
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
 import 'firebase/firestore'
 import { IService } from '../common/models/IService'
+import { GlobalStateAction, Action } from '../store/GlobalStore'
 
 export class FirestoreService {
-  private App: app.app.App
-  private Firestore: app.firestore.Firestore
-  private provider: app.auth.GoogleAuthProvider
+  private Firestore: firebase.firestore.Firestore
+  private provider: firebase.auth.GoogleAuthProvider
 
   firebaseConfig: any = {
     apiKey: 'AIzaSyCYhnIPdcs1XQk06m_5DLxg2hTTTX4wGL0',
@@ -20,24 +20,43 @@ export class FirestoreService {
   }
 
   constructor() {
-    this.App = app.initializeApp(this.firebaseConfig)
-    this.Firestore = this.App.firestore()
-    this.provider = new app.auth.GoogleAuthProvider()
+    firebase.initializeApp(this.firebaseConfig)
+    this.Firestore = firebase.firestore()
+    this.provider = new firebase.auth.GoogleAuthProvider()
+    //firebase.auth().setPersistence('local')
+  }
+
+  UpdateCurrentUser(dispatch: (value: Action) => void) {
+    return firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        dispatch({
+          type: GlobalStateAction.LoggedIn,
+          user: {
+            id: user.uid,
+            name: user.displayName ?? '',
+            email: user.email ?? '',
+            profileImage: user.photoURL ?? '',
+            provider: user.providerId,
+          },
+        })
+      }
+    })
   }
 
   GetCurrentUesr() {
-    return this.App.auth().currentUser
-  }
-  async SignInAnonymously(): Promise<app.auth.UserCredential> {
-    return this.App.auth().signInAnonymously()
+    return firebase.auth().currentUser
   }
 
-  async SignInWithGoogle(): Promise<app.auth.UserCredential> {
-    return this.App.auth().signInWithPopup(this.provider)
+  async SignInAnonymously(): Promise<firebase.auth.UserCredential> {
+    return firebase.auth().signInAnonymously()
+  }
+
+  async SignInWithGoogle(): Promise<firebase.auth.UserCredential> {
+    return firebase.auth().signInWithPopup(this.provider)
   }
 
   SignOut() {
-    return this.App.auth().signOut()
+    return firebase.auth().signOut()
   }
 
   async Add(ServiceCollection: string, service: IService) {
@@ -60,7 +79,7 @@ export class FirestoreService {
   async GetServices(
     ServiceCollection: string
   ): Promise<
-    app.firestore.QueryDocumentSnapshot<app.firestore.DocumentData>[]
+    firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>[]
   > {
     return new Promise((resolve, reject) => {
       this.Firestore.collection(ServiceCollection)

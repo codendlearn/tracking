@@ -1,9 +1,14 @@
 import React from 'react'
 import { useGlobalState, GlobalStateAction } from '../store/GlobalStore'
 import { IconButton, Menu, MenuItem, Avatar } from '@material-ui/core'
+import { useDependencies } from '../store/DependenciesStore'
+import { useHistory } from 'react-router-dom'
 
 const User = () => {
   const { state, dispatch } = useGlobalState()
+  const { userRepository } = useDependencies()
+  const history = useHistory()
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
@@ -14,6 +19,14 @@ const User = () => {
   const handleClose = (e: any) => {
     console.log(e)
     setAnchorEl(null)
+  }
+
+  const handleLogout = (e: any) => {
+    userRepository.SignOut().then(() => {
+      dispatch({ type: GlobalStateAction.LoggedOut })
+      history.replace('/')
+      setAnchorEl(null)
+    })
   }
 
   return (
@@ -50,6 +63,7 @@ const User = () => {
           >
             <MenuItem onClick={handleClose}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </div>
       )}

@@ -2,18 +2,16 @@ import React, { useEffect } from 'react'
 import { GlobalStateAction, useGlobalState } from '../store/GlobalStore'
 import { Button } from '@material-ui/core'
 import { useDependencies } from '../store/DependenciesStore'
+import { useHistory } from 'react-router-dom'
 
 const Login = () => {
+  const history = useHistory()
   const { state, dispatch } = useGlobalState()
   const { userRepository } = useDependencies()
   useEffect(() => {})
 
   const login = () => {
-    if (state.user)
-      dispatch({
-        type: GlobalStateAction.LoggedOut,
-      })
-    else {
+    if (!state.user)
       userRepository
         .SignInWithGoogle()
         .then((user) => {
@@ -29,15 +27,16 @@ const Login = () => {
                 profileImage: userProfile.picture,
               },
             })
+
+          history.push('/')
         })
         .catch((reason) => console.log(reason))
-    }
   }
 
   return (
     <div>
       <Button variant='outlined' color='primary' onClick={login}>
-        {state.user ? 'Logout' : 'Login'}
+        {state.user ? `Welcome ${state.user.name}` : 'Login'}
       </Button>
     </div>
   )

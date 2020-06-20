@@ -23,6 +23,7 @@ import {
   AppsRounded,
 } from '@material-ui/icons'
 import User from './User'
+import PrivateRoute from './hoc/PrivateRoute'
 
 let drawerWidth = 240
 const useStyles = makeStyles((theme: Theme) =>
@@ -101,7 +102,7 @@ const NavigationBar: React.FC = (props: any) => {
 
         <div className={classes.drawerContainer} role='presentation'>
           <MenuList>
-            {Routes.map((route, key) => {
+            {Routes.filter((route) => !route.noNavLink).map((route, key) => {
               return (
                 <NavLink
                   to={route.path}
@@ -122,11 +123,21 @@ const NavigationBar: React.FC = (props: any) => {
         <Toolbar />
         <Container>
           <Switch>
-            {Routes.map((route: any) => (
-              <Route exact path={route.path} key={route.path}>
-                <route.component />
-              </Route>
-            ))}
+            {Routes.map((route: any) => {
+              if (route.isPrivate) {
+                return (
+                  <PrivateRoute exact path={route.path} key={route.path}>
+                    <route.component />
+                  </PrivateRoute>
+                )
+              } else {
+                return (
+                  <Route exact path={route.path} key={route.path}>
+                    <route.component />
+                  </Route>
+                )
+              }
+            })}
           </Switch>
         </Container>
       </main>{' '}

@@ -4,12 +4,15 @@ export interface IRoute {
   path: string
   sidebarName: string
   component: React.ComponentType
+  isPrivate?: boolean
+  noNavLink?: boolean
 }
 
 const Routes: IRoute[] = [
   {
     path: '/',
     sidebarName: 'Home',
+    isPrivate: true,
     component: Home,
   },
   {
@@ -21,6 +24,7 @@ const Routes: IRoute[] = [
     path: '/Login',
     sidebarName: 'Login',
     component: Login,
+    noNavLink: true,
   },
 ]
 
