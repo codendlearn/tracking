@@ -34,11 +34,11 @@ const User = () => {
       {state.user && (
         <div>
           <IconButton
-            aria-label='account of current user'
-            aria-controls='menu-appbar'
-            aria-haspopup='true'
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
             onClick={handleMenu}
-            color='inherit'
+            color="inherit"
           >
             {state.user.profileImage && (
               <Avatar alt={state.user.name} src={state.user.profileImage}>
@@ -47,7 +47,7 @@ const User = () => {
             )}
           </IconButton>
           <Menu
-            id='menu-appbar'
+            id="menu-appbar"
             anchorEl={anchorEl}
             anchorOrigin={{
               vertical: 'top',

@@ -23,15 +23,15 @@ const Home = () => {
   }, [serviceRepository, userRepository])
 
   return services.length === 0 ? (
-    <Grid container direction='row' spacing={4}>
+    <Grid container direction="row" spacing={4}>
       {[0, 1, 2, 3, 4, 5].map((service) => (
         <Grid key={service} item>
-          <Skeleton variant='rect' width={245} height={118} />
+          <Skeleton variant="rect" width={245} height={118} />
         </Grid>
       ))}
     </Grid>
   ) : (
-    <Grid container spacing={4} direction='row'>
+    <Grid container spacing={4} direction="row">
       {services.map((service) => {
         var user = getOwnerDetails(service.ownerId)
         return (

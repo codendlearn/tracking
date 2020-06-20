@@ -83,9 +83,9 @@ const NavigationBar: React.FC = (props: any) => {
   }
   return (
     <div className={classes.root}>
-      <AppBar position='fixed' className={classes.appBar}>
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant='h6' className={classes.title} noWrap>
+          <Typography variant="h6" className={classes.title} noWrap>
             Tracking
           </Typography>
           <User />
@@ -93,14 +93,14 @@ const NavigationBar: React.FC = (props: any) => {
       </AppBar>
       <Drawer
         className={classes.drawer}
-        variant='permanent'
+        variant="permanent"
         classes={{
           paper: classes.drawerPaper,
         }}
       >
         <Toolbar />
 
-        <div className={classes.drawerContainer} role='presentation'>
+        <div className={classes.drawerContainer} role="presentation">
           <MenuList>
             {Routes.filter((route) => !route.noNavLink).map((route, key) => {
               return (

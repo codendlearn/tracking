@@ -35,7 +35,7 @@ const Login = () => {
 
   return (
     <div>
-      <Button variant='outlined' color='primary' onClick={login}>
+      <Button variant="outlined" color="primary" onClick={login}>
         {state.user ? `Welcome ${state.user.name}` : 'Login'}
       </Button>
     </div>

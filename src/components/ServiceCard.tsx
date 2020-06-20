@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import {
   makeStyles,
   Theme,
@@ -14,18 +14,18 @@ import {
   Collapse,
   CardActionArea,
   Button,
-} from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
-import { Payment } from '@material-ui/icons';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import clsx from 'clsx';
-import { IService } from '../common/models/IService';
-import { IUser } from '../common/models/IUser';
-import AddSubscriber from './AddSubscriber';
-import { useDependencies } from '../store/DependenciesStore';
-import { useGlobalState } from '../store/GlobalStore';
+} from '@material-ui/core'
+import { red } from '@material-ui/core/colors'
+import { Payment } from '@material-ui/icons'
+import ShareIcon from '@material-ui/icons/Share'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import clsx from 'clsx'
+import { IService } from '../common/models/IService'
+import { IUser } from '../common/models/IUser'
+import AddSubscriber from './AddSubscriber'
+import { useDependencies } from '../store/DependenciesStore'
+import { useGlobalState } from '../store/GlobalStore'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,31 +50,31 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: red[500],
     },
   })
-);
+)
 
 const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
-  const classes = useStyles();
-  const { state } = useGlobalState();
-  const [users, setUsers] = useState<IUser[]>([]);
-  const { userRepository, serviceRepository } = useDependencies();
+  const classes = useStyles()
+  const { state } = useGlobalState()
+  const [users, setUsers] = useState<IUser[]>([])
+  const { userRepository, serviceRepository } = useDependencies()
 
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false)
   const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+    setExpanded(!expanded)
+  }
 
   useEffect(() => {
     userRepository.GetUsers().then((users) => {
-      setUsers(users);
-    });
-  }, [userRepository]);
+      setUsers(users)
+    })
+  }, [userRepository])
 
   return (
     <Card className={classes.root}>
       <CardHeader
         avatar={
           <Avatar
-            aria-label='recipe'
+            aria-label="recipe"
             alt={props.user?.name}
             src={props.user?.profileImage}
             className={classes.avatar}
@@ -83,7 +83,7 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
           </Avatar>
         }
         action={
-          <IconButton aria-label='settings'>
+          <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
@@ -97,10 +97,10 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
           title={props.name}
         />
         <CardContent>
-          <Typography variant='caption' color='textSecondary' component='p'>
+          <Typography variant="caption" color="textSecondary" component="p">
             You don't have any dues...
           </Typography>
-          <Typography variant='body2' color='textSecondary' component='p'>
+          <Typography variant="body2" color="textSecondary" component="p">
             This impressive paella is a perfect party dish and a fun meal to
             cook together with your guests. Add 1 cup of frozen peas along with
             the mussels, if you like.
@@ -108,11 +108,11 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing>
-        <Button color='primary'>Pay now</Button>
-        <IconButton aria-label='add to favorites'>
+        <Button color="primary">Pay now</Button>
+        <IconButton aria-label="add to favorites">
           <Payment />
         </IconButton>
-        <IconButton aria-label='share'>
+        <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
         <IconButton
@@ -121,19 +121,19 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
           })}
           onClick={handleExpandClick}
           aria-expanded={expanded}
-          aria-label='show more'
+          aria-label="show more"
         >
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
-      <Collapse in={expanded} timeout='auto' unmountOnExit>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           {state.user?.id === props.user?.id && (
             <AddSubscriber
               users={users}
               service={{ ...props }}
               onAdd={(userId, serviceId) => {
-                serviceRepository.AddSubscriber(userId, serviceId);
+                serviceRepository.AddSubscriber(userId, serviceId)
               }}
             />
           )}
@@ -145,7 +145,7 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
         </CardContent>
       </Collapse>
     </Card>
-  );
-};
+  )
+}
 
-export default ServiceCard;
+export default ServiceCard

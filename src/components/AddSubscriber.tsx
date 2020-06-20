@@ -39,8 +39,8 @@ const AddSubscriber: React.FC<IAddSubscriberProps> = (props) => {
 
   return (
     <div className={classes.root}>
-      <FormControl component='fieldset' className={classes.formControl}>
-        <FormLabel component='legend'>Add Users</FormLabel>
+      <FormControl component="fieldset" className={classes.formControl}>
+        <FormLabel component="legend">Add Users</FormLabel>
 
         {props.users
           .filter((x) => x.id !== props.service.ownerId)

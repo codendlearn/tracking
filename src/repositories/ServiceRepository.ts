@@ -1,29 +1,29 @@
-import { services } from './../common/data';
-import { FirestoreService } from './../services/FirestoreService';
-import { IService } from '../common/models/IService';
+import { services } from './../common/data'
+import { FirestoreService } from './../services/FirestoreService'
+import { IService } from '../common/models/IService'
 
 export class ServiceRepository {
-  firebaseService: FirestoreService;
-  ServiceCollection = 'tracking';
+  firebaseService: FirestoreService
+  ServiceCollection = 'tracking'
   constructor(firebaseService: FirestoreService) {
-    this.firebaseService = firebaseService;
+    this.firebaseService = firebaseService
   }
 
   async Add(newService: IService) {
-    return this.firebaseService.Add(this.ServiceCollection, newService);
+    return this.firebaseService.Add(this.ServiceCollection, newService)
   }
 
   async AddSubscriber(userId: string, serviceId: string) {
     return new Promise<void>((resolve) => {
-      var service = services.find((x) => x.id === serviceId);
-      service?.subscribers?.push({ userId, serviceId, payments: [] });
-      resolve();
-    });
+      var service = services.find((x) => x.id === serviceId)
+      service?.subscribers?.push({ userId, serviceId, payments: [] })
+      resolve()
+    })
   }
 
   async GetServices() {
     return new Promise<IService[]>((resolve, reject) => {
-      setTimeout(() => resolve(services), 10);
+      setTimeout(() => resolve(services), 10)
 
       // this.firebaseService
       //   .GetServices('tracking')
@@ -44,6 +44,6 @@ export class ServiceRepository {
       //     resolve(res);
       //   })
       //   .catch((reason) => reject(reason));
-    });
+    })
   }
 }
