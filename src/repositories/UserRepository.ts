@@ -1,6 +1,8 @@
-import { FirestoreService } from '../services/FirestoreService'
+/* eslint-disable class-methods-use-this */
 import { users } from '../common/data'
 import { IUser } from '../common/models/IUser'
+import { FirestoreService } from '../services/FirestoreService'
+import { GlobalStateAction } from '../store/GlobalStore'
 
 export class UserRepository {
   private firebaseService: FirestoreService
@@ -37,5 +39,10 @@ export class UserRepository {
 
   SignInWithGoogle() {
     return this.firebaseService.SignInWithGoogle()
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  UpdateCurrentUser(dispatch: any) {
+    dispatch({ type: GlobalStateAction.LoggedIn, user: {} })
   }
 }

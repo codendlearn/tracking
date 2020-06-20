@@ -1,6 +1,6 @@
-import React, { createContext, useReducer, useContext } from 'react'
-import { IUser } from '../common/models/IUser'
+import React, { createContext, useContext, useReducer } from 'react'
 import { IGlobalState } from '../common/models/IGlobalState'
+import { IUser } from '../common/models/IUser'
 
 export enum GlobalStateAction {
   Busy,
@@ -47,14 +47,14 @@ const reducer: React.Reducer<IGlobalState, Action> = (state, action) => {
   }
 }
 
-const GlobalStateProvider: React.FC<any> = ({ children }) => {
+const GlobalStateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer<React.Reducer<IGlobalState, Action>>(
     reducer,
     initialUserState
   )
 
   return (
-    <globalStore.Provider value={{ state: state, dispatch }}>
+    <globalStore.Provider value={{ state, dispatch }}>
       {children}
     </globalStore.Provider>
   )

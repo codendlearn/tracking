@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
-import { GlobalStateAction, useGlobalState } from '../store/GlobalStore'
 import { Button } from '@material-ui/core'
-import { useDependencies } from '../store/DependenciesStore'
+import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useDependencies } from '../store/DependenciesStore'
+import { GlobalStateAction, useGlobalState } from '../store/GlobalStore'
 
 const Login = () => {
   const history = useHistory()
@@ -15,8 +15,7 @@ const Login = () => {
       userRepository
         .SignInWithGoogle()
         .then((user) => {
-          console.log(user.additionalUserInfo)
-          var userProfile: any = user.additionalUserInfo?.profile
+          const userProfile = user.additionalUserInfo?.profile
           userProfile &&
             dispatch({
               type: GlobalStateAction.LoggedIn,

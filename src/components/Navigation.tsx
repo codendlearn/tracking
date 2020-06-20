@@ -1,31 +1,34 @@
-import React from 'react'
-
-import { NavLink, withRouter, Switch, Route } from 'react-router-dom'
-import Routes from '../Routes'
-
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import {
   AppBar,
+  Container,
+  Drawer,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  MenuList,
   Toolbar,
   Typography,
-  Drawer,
-  MenuList,
-  MenuItem,
-  ListItemText,
-  Container,
-  ListItemIcon,
 } from '@material-ui/core'
-
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import {
+  AppsRounded,
   ExitToAppRounded,
   HomeRounded,
   InfoRounded,
-  AppsRounded,
 } from '@material-ui/icons'
+import React from 'react'
+import {
+  NavLink,
+  Route,
+  Switch,
+  useLocation,
+  withRouter,
+} from 'react-router-dom'
+import Routes, { IRoute } from '../Routes'
+import { PrivateRoute } from './hoc/PrivateRoute'
 import User from './User'
-import PrivateRoute from './hoc/PrivateRoute'
 
-let drawerWidth = 240
+const drawerWidth = 240
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -62,12 +65,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-const NavigationBar: React.FC = (props: any) => {
+const NavigationBar: React.FC = () => {
   const classes = useStyles()
-
-  const activeRoute = (routeName: any) => {
-    return props.location.pathname === routeName ? true : false
-  }
+  const location = useLocation()
 
   const getIcon = (name: string) => {
     switch (name) {
@@ -81,6 +81,11 @@ const NavigationBar: React.FC = (props: any) => {
         return <AppsRounded />
     }
   }
+
+  const activeRoute = (routeName: string) => {
+    return location.pathname === routeName
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
@@ -107,7 +112,7 @@ const NavigationBar: React.FC = (props: any) => {
                 <NavLink
                   to={route.path}
                   style={{ textDecoration: 'none' }}
-                  key={key}
+                  key={route.sidebarName}
                 >
                   <MenuItem selected={activeRoute(route.path)}>
                     <ListItemIcon>{getIcon(route.sidebarName)}</ListItemIcon>
@@ -123,20 +128,19 @@ const NavigationBar: React.FC = (props: any) => {
         <Toolbar />
         <Container>
           <Switch>
-            {Routes.map((route: any) => {
+            {Routes.map((route: IRoute) => {
               if (route.isPrivate) {
                 return (
                   <PrivateRoute exact path={route.path} key={route.path}>
                     <route.component />
                   </PrivateRoute>
                 )
-              } else {
-                return (
-                  <Route exact path={route.path} key={route.path}>
-                    <route.component />
-                  </Route>
-                )
               }
+              return (
+                <Route exact path={route.path} key={route.path}>
+                  <route.component />
+                </Route>
+              )
             })}
           </Switch>
         </Container>

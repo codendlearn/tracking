@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { useDependencies } from '../store/DependenciesStore'
-import { IService } from '../common/models/IService'
-import { Skeleton } from '@material-ui/lab'
 import { Grid } from '@material-ui/core'
-import ServiceCard from '../components/ServiceCard'
+import { Skeleton } from '@material-ui/lab'
+import React, { useEffect, useState } from 'react'
+import { IService } from '../common/models/IService'
 import { IUser } from '../common/models/IUser'
+import ServiceCard from '../components/ServiceCard'
+import { useDependencies } from '../store/DependenciesStore'
 
 const Home = () => {
   const [services, setServices] = useState<IService[]>([])
@@ -16,10 +16,11 @@ const Home = () => {
     users.find((user) => user.id === ownerId)
 
   useEffect(() => {
-    serviceRepository.GetServices().then((services) => {
-      setServices(services)
+    serviceRepository.GetServices().then((servicesList) => {
+      setServices(servicesList)
     })
-    userRepository.GetUsers().then((users) => setUsers(users))
+
+    userRepository.GetUsers().then((usersList) => setUsers(usersList))
   }, [serviceRepository, userRepository])
 
   return services.length === 0 ? (
@@ -33,7 +34,7 @@ const Home = () => {
   ) : (
     <Grid container spacing={4} direction="row">
       {services.map((service) => {
-        var user = getOwnerDetails(service.ownerId)
+        const user = getOwnerDetails(service.ownerId)
         return (
           <Grid key={service.id} item>
             <ServiceCard user={user} {...service} />

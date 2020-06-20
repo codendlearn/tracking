@@ -1,14 +1,15 @@
+/* eslint-disable class-methods-use-this */
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
-import 'firebase/firestore'
 import { IService } from '../common/models/IService'
-import { GlobalStateAction, Action } from '../store/GlobalStore'
+import { Action, GlobalStateAction } from '../store/GlobalStore'
 
 export class FirestoreService {
   private Firestore: firebase.firestore.Firestore
+
   private provider: firebase.auth.GoogleAuthProvider
 
-  firebaseConfig: any = {
+  firebaseConfig = {
     apiKey: 'AIzaSyCYhnIPdcs1XQk06m_5DLxg2hTTTX4wGL0',
     authDomain: 'learning-fec7e.firebaseapp.com',
     databaseURL: 'https://learning-fec7e.firebaseio.com',
@@ -23,7 +24,7 @@ export class FirestoreService {
     firebase.initializeApp(this.firebaseConfig)
     this.Firestore = firebase.firestore()
     this.provider = new firebase.auth.GoogleAuthProvider()
-    //firebase.auth().setPersistence('local')
+    // firebase.auth().setPersistence('local')
   }
 
   UpdateCurrentUser(dispatch: (value: Action) => void) {
@@ -70,7 +71,7 @@ export class FirestoreService {
         .then((data) => {
           if (data) {
             resolve(data.id)
-          } else reject('creation failed')
+          } else reject(new Error('creation failed'))
         })
         .catch((reason) => reject(reason))
     })
@@ -80,6 +81,7 @@ export class FirestoreService {
     ServiceCollection: string
   ): Promise<
     firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>[]
+    // eslint-disable-next-line @typescript-eslint/indent
   > {
     return new Promise((resolve, reject) => {
       this.Firestore.collection(ServiceCollection)
@@ -87,7 +89,7 @@ export class FirestoreService {
         .then((data) => {
           if (data) {
             resolve(data.docs)
-          } else reject('no data')
+          } else reject(new Error('no data'))
         })
         .catch((reason) => reject(reason))
     })
@@ -100,7 +102,7 @@ export class FirestoreService {
         .then((data) => {
           if (data) {
             resolve(data.docs)
-          } else reject('no data')
+          } else reject(new Error('no data'))
         })
         .catch((reason) => reject(reason))
     })

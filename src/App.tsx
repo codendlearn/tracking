@@ -1,10 +1,10 @@
+import { CssBaseline, MuiThemeProvider } from '@material-ui/core'
 import React, { useEffect } from 'react'
 import './App.css'
 import Navigation from './components/Navigation'
-import { MuiThemeProvider, CssBaseline } from '@material-ui/core'
-import theme from './theme'
-import { useGlobalState } from './store/GlobalStore'
 import { useDependencies } from './store/DependenciesStore'
+import { useGlobalState } from './store/GlobalStore'
+import theme from './theme'
 
 function App() {
   const { state, dispatch } = useGlobalState()

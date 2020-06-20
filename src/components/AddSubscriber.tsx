@@ -1,17 +1,17 @@
-import React from 'react'
-import { IUser } from '../common/models/IUser'
-import { IService } from '../common/models/IService'
 import {
+  Avatar,
+  Checkbox,
+  createStyles,
   FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormLabel,
   makeStyles,
   Theme,
-  createStyles,
-  FormLabel,
-  FormGroup,
-  Avatar,
-  FormControlLabel,
-  Checkbox,
 } from '@material-ui/core'
+import React from 'react'
+import { IService } from '../common/models/IService'
+import { IUser } from '../common/models/IUser'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,7 +33,6 @@ interface IAddSubscriberProps {
 const AddSubscriber: React.FC<IAddSubscriberProps> = (props) => {
   const classes = useStyles()
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.name)
     props.onAdd(event.target.name, props.service?.id ?? '')
   }
 
@@ -45,7 +44,7 @@ const AddSubscriber: React.FC<IAddSubscriberProps> = (props) => {
         {props.users
           .filter((x) => x.id !== props.service.ownerId)
           .map((user) => (
-            <FormGroup>
+            <FormGroup key={user.id}>
               <FormControlLabel
                 control={
                   <Checkbox

@@ -1,10 +1,13 @@
-import { services } from './../common/data'
-import { FirestoreService } from './../services/FirestoreService'
+/* eslint-disable class-methods-use-this */
+import { services } from '../common/data'
 import { IService } from '../common/models/IService'
+import { FirestoreService } from '../services/FirestoreService'
 
 export class ServiceRepository {
   firebaseService: FirestoreService
+
   ServiceCollection = 'tracking'
+
   constructor(firebaseService: FirestoreService) {
     this.firebaseService = firebaseService
   }
@@ -15,7 +18,7 @@ export class ServiceRepository {
 
   async AddSubscriber(userId: string, serviceId: string) {
     return new Promise<void>((resolve) => {
-      var service = services.find((x) => x.id === serviceId)
+      const service = services.find((x) => x.id === serviceId)
       service?.subscribers?.push({ userId, serviceId, payments: [] })
       resolve()
     })

@@ -1,8 +1,8 @@
+import { Avatar, IconButton, Menu, MenuItem } from '@material-ui/core'
 import React from 'react'
-import { useGlobalState, GlobalStateAction } from '../store/GlobalStore'
-import { IconButton, Menu, MenuItem, Avatar } from '@material-ui/core'
-import { useDependencies } from '../store/DependenciesStore'
 import { useHistory } from 'react-router-dom'
+import { useDependencies } from '../store/DependenciesStore'
+import { GlobalStateAction, useGlobalState } from '../store/GlobalStore'
 
 const User = () => {
   const { state, dispatch } = useGlobalState()
@@ -16,12 +16,11 @@ const User = () => {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleClose = (e: any) => {
-    console.log(e)
+  const handleClose = () => {
     setAnchorEl(null)
   }
 
-  const handleLogout = (e: any) => {
+  const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
     userRepository.SignOut().then(() => {
       dispatch({ type: GlobalStateAction.LoggedOut })
       history.replace('/')

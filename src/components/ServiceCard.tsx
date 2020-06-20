@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from 'react'
 import {
+  Avatar,
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Collapse,
+  createStyles,
+  IconButton,
   makeStyles,
   Theme,
-  createStyles,
-  Card,
-  CardHeader,
-  Avatar,
-  IconButton,
-  CardMedia,
-  CardContent,
   Typography,
-  CardActions,
-  Collapse,
-  CardActionArea,
-  Button,
 } from '@material-ui/core'
 import { red } from '@material-ui/core/colors'
 import { Payment } from '@material-ui/icons'
-import ShareIcon from '@material-ui/icons/Share'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
+import ShareIcon from '@material-ui/icons/Share'
 import clsx from 'clsx'
+import React, { useEffect, useState } from 'react'
 import { IService } from '../common/models/IService'
 import { IUser } from '../common/models/IUser'
-import AddSubscriber from './AddSubscriber'
 import { useDependencies } from '../store/DependenciesStore'
 import { useGlobalState } from '../store/GlobalStore'
+import AddSubscriber from './AddSubscriber'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,8 +64,8 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
   }
 
   useEffect(() => {
-    userRepository.GetUsers().then((users) => {
-      setUsers(users)
+    userRepository.GetUsers().then((u) => {
+      setUsers(u)
     })
   }, [userRepository])
 

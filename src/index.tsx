@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import App from './App'
 import { BrowserRouter } from 'react-router-dom'
-import { GlobalStateProvider } from './store/GlobalStore'
+import App from './App'
+import './index.css'
 import { DependenciesStoreProvider } from './store/DependenciesStore'
+import { GlobalStateProvider } from './store/GlobalStore'
 
 ReactDOM.render(
   <React.StrictMode>
