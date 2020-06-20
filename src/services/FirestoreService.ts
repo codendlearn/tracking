@@ -1,6 +1,9 @@
 /* eslint-disable class-methods-use-this */
 import * as firebase from 'firebase/app'
+// eslint-disable-next-line import/no-duplicates
 import 'firebase/auth'
+// eslint-disable-next-line import/no-duplicates
+import 'firebase/firestore'
 import { IService } from '../common/models/IService'
 import { Action, GlobalStateAction } from '../store/GlobalStore'
 

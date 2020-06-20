@@ -15,7 +15,12 @@ const Login = () => {
       userRepository
         .SignInWithGoogle()
         .then((user) => {
-          const userProfile = user.additionalUserInfo?.profile
+          const userProfile = user.additionalUserInfo?.profile as {
+            id: string
+            name: string
+            email: string
+            picture: string
+          }
           userProfile &&
             dispatch({
               type: GlobalStateAction.LoggedIn,
