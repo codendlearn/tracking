@@ -12,21 +12,6 @@ export class UserRepository {
     this.firebaseService = firebaseService
   }
 
-  GetCurrentUser(): IUser | null {
-    const firebaseUser = this.firebaseService.GetCurrentUesr()
-
-    if (firebaseUser != null) {
-      return {
-        id: firebaseUser.uid,
-        name: firebaseUser.displayName ?? '',
-        email: firebaseUser.email ?? '',
-        profileImage: firebaseUser.photoURL ?? '',
-      }
-    }
-
-    return null
-  }
-
   // eslint-disable-next-line class-methods-use-this
   GetUsers() {
     return new Promise<IUser[]>((resolve) => resolve(users))
@@ -38,5 +23,10 @@ export class UserRepository {
 
   SignInWithGoogle() {
     return this.firebaseService.SignInWithGoogle()
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  UpdateCurrentUser(dispatch: (value: any) => void) {
+    this.firebaseService.UpdateCurrentUser(dispatch)
   }
 }

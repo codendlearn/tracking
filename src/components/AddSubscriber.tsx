@@ -1,14 +1,16 @@
 import {
   Avatar,
-  Checkbox,
   createStyles,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormLabel,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText,
   makeStyles,
   Theme,
 } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add'
 import React from 'react'
 import { IService } from '../common/models/IService'
 import { IUser } from '../common/models/IUser'
@@ -16,10 +18,26 @@ import { IUser } from '../common/models/IUser'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
+      width: '100%',
+      maxWidth: 360,
+      backgroundColor: theme.palette.background.paper,
     },
-    formControl: {
-      margin: theme.spacing(3),
+    item: {
+      marginTop: '10px',
+      borderRadius: '12px',
+      '&:hover': {
+        cursor: 'pointer',
+        '& $iconButton': {
+          backgroundColor: theme.palette.secondary.main,
+        },
+      },
+    },
+    iconButton: {
+      border: '1px solid darkgrey',
+      '&:hover': {
+        backgroundColor: theme.palette.secondary.main,
+        cursor: 'pointer',
+      },
     },
   })
 )
@@ -32,38 +50,44 @@ interface IAddSubscriberProps {
 
 const AddSubscriber: React.FC<IAddSubscriberProps> = (props) => {
   const classes = useStyles()
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.onAdd(event.target.name, props.service?.id ?? '')
+  const { users, service, onAdd } = props
+  const subscribe = (userId: string) => {
+    onAdd(userId, service?.id ?? '')
   }
 
   return (
-    <div className={classes.root}>
-      <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend">Add Users</FormLabel>
+    <List className={classes.root}>
+      {users
+        .filter((x) => x.id !== service.ownerId)
+        .map((user) => {
+          const isSubscriber =
+            service.subscribers !== undefined &&
+            service.subscribers?.findIndex((x) => x.userId === user.id) > -1
 
-        {props.users
-          .filter((x) => x.id !== props.service.ownerId)
-          .map((user) => (
-            <FormGroup key={user.id}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={props.service.subscribers?.some(
-                      (a) => a.userId === user.id
-                    )}
-                    onChange={handleChange}
-                    name={user.id}
-                  />
-                }
-                label={user.name}
-              />
-              <Avatar alt={user.name} src={user.profileImage}>
-                {user.name[0]}
-              </Avatar>
-            </FormGroup>
-          ))}
-      </FormControl>
-    </div>
+          return (
+            <ListItem
+              key={user.id}
+              button
+              disabled={isSubscriber}
+              className={classes.item}
+              onClick={() => subscribe(user.id)}
+            >
+              {!isSubscriber && (
+                <ListItemSecondaryAction>
+                  <IconButton className={classes.iconButton}>
+                    <AddIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              )}
+              <ListItemAvatar>
+                <Avatar alt={user.name} src={user.profileImage} />
+              </ListItemAvatar>
+
+              <ListItemText primary={user.name} secondary={user.email} />
+            </ListItem>
+          )
+        })}
+    </List>
   )
 }
 

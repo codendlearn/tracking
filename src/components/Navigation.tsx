@@ -2,6 +2,7 @@ import {
   AppBar,
   Container,
   Drawer,
+  Hidden,
   ListItemIcon,
   ListItemText,
   MenuItem,
@@ -96,34 +97,36 @@ const NavigationBar: React.FC = () => {
           <User />
         </Toolbar>
       </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <Toolbar />
+      <Hidden smDown implementation="css">
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <Toolbar />
 
-        <div className={classes.drawerContainer} role="presentation">
-          <MenuList>
-            {Routes.filter((route) => !route.noNavLink).map((route, key) => {
-              return (
-                <NavLink
-                  to={route.path}
-                  style={{ textDecoration: 'none' }}
-                  key={route.sidebarName}
-                >
-                  <MenuItem selected={activeRoute(route.path)}>
-                    <ListItemIcon>{getIcon(route.sidebarName)}</ListItemIcon>
-                    <ListItemText primary={route.sidebarName} />
-                  </MenuItem>
-                </NavLink>
-              )
-            })}
-          </MenuList>
-        </div>
-      </Drawer>
+          <div className={classes.drawerContainer} role="presentation">
+            <MenuList>
+              {Routes.filter((route) => !route.noNavLink).map((route, key) => {
+                return (
+                  <NavLink
+                    to={route.path}
+                    style={{ textDecoration: 'none' }}
+                    key={route.sidebarName}
+                  >
+                    <MenuItem selected={activeRoute(route.path)}>
+                      <ListItemIcon>{getIcon(route.sidebarName)}</ListItemIcon>
+                      <ListItemText primary={route.sidebarName} />
+                    </MenuItem>
+                  </NavLink>
+                )
+              })}
+            </MenuList>
+          </div>
+        </Drawer>
+      </Hidden>
       <main className={classes.content}>
         <Toolbar />
         <Container>

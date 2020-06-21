@@ -8,7 +8,9 @@ const Login = () => {
   const history = useHistory()
   const { state, dispatch } = useGlobalState()
   const { userRepository } = useDependencies()
-  useEffect(() => {})
+  useEffect(() => {
+    state.user && history.push('/')
+  })
 
   const login = () => {
     if (!state.user)

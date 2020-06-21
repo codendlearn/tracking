@@ -9,6 +9,7 @@ import {
   CardMedia,
   Collapse,
   createStyles,
+  Divider,
   IconButton,
   makeStyles,
   Theme,
@@ -127,8 +128,10 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
         </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <Divider />
         <CardContent>
-          {state.user?.id === props.user?.id && (
+          <Typography paragraph>Subscribers:</Typography>
+          {state.user?.id === props.ownerId && (
             <AddSubscriber
               users={users}
               service={{ ...props }}
@@ -137,11 +140,6 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
               }}
             />
           )}
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and
-            set aside for 10 minutes.
-          </Typography>
         </CardContent>
       </Collapse>
     </Card>

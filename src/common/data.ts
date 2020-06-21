@@ -1,9 +1,10 @@
-import { IService, Interval } from './models/IService'
+import { Interval, IService } from './models/IService'
 import { IUser } from './models/IUser'
 
 export const users: IUser[] = [
   {
-    id: '111949323613018175995',
+    id: 'qbtsvbKOh3Rl5FhhHxVZfrJ4qOo1',
+    // id: '111949323613018175995',
     email: 'codinesh@live.com',
     name: 'Dinesh',
     profileImage:
@@ -41,7 +42,7 @@ export const services: IService[] = [
     name: 'Netflix',
     displayOrder: 1,
     imageName: 'netflixfull.png',
-    ownerId: '111949323613018175995',
+    ownerId: 'qbtsvbKOh3Rl5FhhHxVZfrJ4qOo1',
     subscription: {
       serviceId: '1',
       amount: 900,
@@ -76,7 +77,7 @@ export const services: IService[] = [
     name: 'YouTube',
     displayOrder: 3,
     imageName: 'youtube.png',
-    ownerId: '111949323613018175995',
+    ownerId: 'qbtsvbKOh3Rl5FhhHxVZfrJ4qOo1',
     subscription: {
       serviceId: '3',
       amount: 250,
