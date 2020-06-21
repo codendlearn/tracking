@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { services } from '../common/data'
-import { IService } from '../common/models/IService'
+import { ServiceCollection } from '../common/models/Constants'
+import { Interval, IService } from '../common/models/IService'
 import { FirestoreService } from '../services/FirestoreService'
 
 export class ServiceRepository {
@@ -26,27 +27,34 @@ export class ServiceRepository {
 
   async GetServices() {
     return new Promise<IService[]>((resolve, reject) => {
-      setTimeout(() => resolve(services), 10)
+      // setTimeout(() => resolve(services), 10)
 
-      // this.firebaseService
-      //   .GetServices('tracking')
-      //   .then((docs) => {
-      //     var res = docs.map(
-      //       (x): IService => {
-      //         let service = x.data();
-      //         return {
-      //           name: service['name'],
-      //           id: x.id,
-      //           displayOrder: service['displayOrder'] as number,
-      //           ownerId: service['ownerId'],
-      //           imageName: '',
-      //         };
-      //       }
-      //     );
+      this.firebaseService
+        .GetItems(ServiceCollection)
+        .then((docs) => {
+          const res = docs.map(
+            (x): IService => {
+              const service = x.data()
+              return {
+                name: service.name,
+                id: x.id,
+                displayOrder: service.displayOrder as number,
+                ownerId: service.ownerId,
+                imageName: '',
+                subscription: {
+                  serviceId: x.id,
+                  paymentInterval: Interval.Monthly,
+                  amount: 800,
+                  maxParticipants: 5,
+                  currentParticipants: 1,
+                },
+              }
+            }
+          )
 
-      //     resolve(res);
-      //   })
-      //   .catch((reason) => reject(reason));
+          resolve(res)
+        })
+        .catch((reason) => reject(reason))
     })
   }
 }

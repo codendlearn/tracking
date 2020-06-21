@@ -3,7 +3,7 @@ import { ServiceRepository } from '../repositories/ServiceRepository'
 import { UserRepository } from '../repositories/UserRepository'
 import { FirestoreService } from '../services/FirestoreService'
 
-const firestoreService = new FirestoreService()
+const firestoreService = new FirestoreService(true)
 const userRepository = new UserRepository(firestoreService)
 const serviceRepository = new ServiceRepository(firestoreService)
 const dependencies = {

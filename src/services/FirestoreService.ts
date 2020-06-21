@@ -4,7 +4,9 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 // eslint-disable-next-line import/no-duplicates
 import 'firebase/firestore'
+import { UserCollection } from '../common/models/Constants'
 import { IService } from '../common/models/IService'
+import { IUser } from '../common/models/IUser'
 import { Action, GlobalStateAction } from '../store/GlobalStore'
 
 export class FirestoreService {
@@ -23,8 +25,16 @@ export class FirestoreService {
     measurementId: 'G-C15DMTZ9NQ',
   }
 
-  constructor() {
+  constructor(useEmulator: boolean = false) {
     firebase.initializeApp(this.firebaseConfig)
+    const db = firebase.firestore()
+    if (useEmulator) {
+      db.settings({
+        host: 'localhost:8080',
+        ssl: false,
+      })
+    }
+
     this.Firestore = firebase.firestore()
     this.provider = new firebase.auth.GoogleAuthProvider()
     // firebase.auth().setPersistence('local')
@@ -63,6 +73,25 @@ export class FirestoreService {
     return firebase.auth().signOut()
   }
 
+  async AddUser(user: IUser) {
+    return new Promise((resolve, reject) => {
+      this.Firestore.collection(UserCollection)
+        .add({
+          name: user.name,
+          id: user.id,
+          email: user.email,
+          profileImage: user.profileImage,
+          provider: user.provider,
+        })
+        .then((data) => {
+          if (data) {
+            resolve(data.id)
+          } else reject(new Error('creation failed'))
+        })
+        .catch((reason) => reject(reason))
+    })
+  }
+
   async Add(ServiceCollection: string, service: IService) {
     return new Promise((resolve, reject) => {
       this.Firestore.collection(ServiceCollection)
@@ -80,25 +109,12 @@ export class FirestoreService {
     })
   }
 
-  async GetServices(
+  async GetItems(
     ServiceCollection: string
   ): Promise<
     firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>[]
     // eslint-disable-next-line @typescript-eslint/indent
   > {
-    return new Promise((resolve, reject) => {
-      this.Firestore.collection(ServiceCollection)
-        .get()
-        .then((data) => {
-          if (data) {
-            resolve(data.docs)
-          } else reject(new Error('no data'))
-        })
-        .catch((reason) => reject(reason))
-    })
-  }
-
-  async GetUsers(ServiceCollection: string) {
     return new Promise((resolve, reject) => {
       this.Firestore.collection(ServiceCollection)
         .get()

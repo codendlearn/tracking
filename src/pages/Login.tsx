@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core'
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { IUser } from '../common/models/IUser'
 import { useDependencies } from '../store/DependenciesStore'
 import { GlobalStateAction, useGlobalState } from '../store/GlobalStore'
 
@@ -16,27 +17,18 @@ const Login = () => {
     if (!state.user)
       userRepository
         .SignInWithGoogle()
-        .then((user) => {
-          const userProfile = user.additionalUserInfo?.profile as {
-            id: string
-            name: string
-            email: string
-            picture: string
-          }
-          userProfile &&
+        .then((user: IUser) => {
+          user &&
             dispatch({
               type: GlobalStateAction.LoggedIn,
-              user: {
-                id: userProfile.id,
-                name: userProfile.name,
-                email: userProfile.email,
-                profileImage: userProfile.picture,
-              },
+              user,
             })
+
+          userRepository.AddNewUser(user)
 
           history.push('/')
         })
-        .catch((reason) => console.log(reason))
+        .catch((reason: unknown) => console.log(reason))
   }
 
   return (

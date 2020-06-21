@@ -16,11 +16,11 @@ const Home = () => {
     users.find((user) => user.id === ownerId)
 
   useEffect(() => {
-    serviceRepository.GetServices().then((servicesList) => {
+    serviceRepository.GetServices().then((servicesList: IService[]) => {
       setServices(servicesList)
     })
 
-    userRepository.GetUsers().then((usersList) => setUsers(usersList))
+    userRepository.GetUsers().then((usersList: IUser[]) => setUsers(usersList))
   }, [serviceRepository, userRepository])
 
   return services.length === 0 ? (
