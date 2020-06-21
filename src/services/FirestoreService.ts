@@ -74,22 +74,15 @@ export class FirestoreService {
   }
 
   async AddUser(user: IUser) {
-    return new Promise((resolve, reject) => {
-      this.Firestore.collection(UserCollection)
-        .add({
-          name: user.name,
-          id: user.id,
-          email: user.email,
-          profileImage: user.profileImage,
-          provider: user.provider,
-        })
-        .then((data) => {
-          if (data) {
-            resolve(data.id)
-          } else reject(new Error('creation failed'))
-        })
-        .catch((reason) => reject(reason))
-    })
+    return this.Firestore.collection(UserCollection)
+      .doc(user.id)
+      .set({
+        name: user.name,
+        id: user.id,
+        email: user.email,
+        profileImage: user.profileImage,
+        provider: user.provider ?? '',
+      })
   }
 
   async Add(ServiceCollection: string, service: IService) {

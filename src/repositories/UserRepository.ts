@@ -6,8 +6,6 @@ import { FirestoreService } from '../services/FirestoreService'
 export class UserRepository {
   private firebaseService: FirestoreService
 
-  private ServiceCollection = 'users'
-
   constructor(firebaseService: FirestoreService) {
     this.firebaseService = firebaseService
   }

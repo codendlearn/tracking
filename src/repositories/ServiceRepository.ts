@@ -7,14 +7,12 @@ import { FirestoreService } from '../services/FirestoreService'
 export class ServiceRepository {
   firebaseService: FirestoreService
 
-  ServiceCollection = 'tracking'
-
   constructor(firebaseService: FirestoreService) {
     this.firebaseService = firebaseService
   }
 
   async Add(newService: IService) {
-    return this.firebaseService.Add(this.ServiceCollection, newService)
+    return this.firebaseService.Add(ServiceCollection, newService)
   }
 
   async AddSubscriber(userId: string, serviceId: string) {
@@ -52,7 +50,7 @@ export class ServiceRepository {
             }
           )
 
-          resolve(res)
+          resolve(res.sort((x, y) => x.displayOrder - y.displayOrder))
         })
         .catch((reason) => reject(reason))
     })

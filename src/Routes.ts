@@ -1,4 +1,5 @@
-import { Home, About, Login } from './pages'
+import { About, Home, Login } from './pages'
+import SeedData from './pages/SeedData'
 
 export interface IRoute {
   path: string
@@ -25,6 +26,12 @@ const Routes: IRoute[] = [
     sidebarName: 'Login',
     component: Login,
     noNavLink: true,
+  },
+  {
+    path: '/seed',
+    sidebarName: 'Seed',
+    isPrivate: true,
+    component: SeedData,
   },
 ]
 

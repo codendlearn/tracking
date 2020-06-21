@@ -31,7 +31,9 @@
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
     "format": "prettier --write src/**/*.{ts,tsx,scss,css,json}",
-    "isready": "npm run format && npm run lint && npm run build"
+    "isready": "npm run format && npm run lint && npm run build",
+    "emulator": "firebase emulators:start --import=test",
+    "emulator-backup": "firebase emulators:export test"
   },
   "eslintConfig": {
     "extends": "react-app"
