@@ -4,7 +4,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 // eslint-disable-next-line import/no-duplicates
 import 'firebase/firestore'
-import { UserCollection } from '../common/models/Constants'
+import { ServiceCollection, UserCollection } from '../common/models/Constants'
 import { IService } from '../common/models/IService'
 import { IUser } from '../common/models/IUser'
 import { Action, GlobalStateAction } from '../store/GlobalStore'
@@ -46,7 +46,7 @@ export class FirestoreService {
         dispatch({
           type: GlobalStateAction.LoggedIn,
           user: {
-            id: user.uid,
+            id: user.providerData[0]?.uid ?? '',
             name: user.displayName ?? '',
             email: user.email ?? '',
             profileImage: user.photoURL ?? '',
@@ -85,31 +85,26 @@ export class FirestoreService {
       })
   }
 
-  async Add(ServiceCollection: string, service: IService) {
+  async AddService(service: IService) {
     return new Promise((resolve, reject) => {
       this.Firestore.collection(ServiceCollection)
-        .add({
-          name: service.name,
-          displayOrder: service.displayOrder,
-          ownerId: service.ownerId,
-        })
-        .then((data) => {
-          if (data) {
-            resolve(data.id)
-          } else reject(new Error('creation failed'))
+        .doc(service.id)
+        .set({ ...service })
+        .then(() => {
+          resolve()
         })
         .catch((reason) => reject(reason))
     })
   }
 
   async GetItems(
-    ServiceCollection: string
+    ItemServiceCollection: string
   ): Promise<
-    firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>[]
     // eslint-disable-next-line @typescript-eslint/indent
+    firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>[]
   > {
     return new Promise((resolve, reject) => {
-      this.Firestore.collection(ServiceCollection)
+      this.Firestore.collection(ItemServiceCollection)
         .get()
         .then((data) => {
           if (data) {

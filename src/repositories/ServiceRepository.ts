@@ -12,12 +12,14 @@ export class ServiceRepository {
   }
 
   async Add(newService: IService) {
-    return this.firebaseService.Add(ServiceCollection, newService)
+    return this.firebaseService.AddService(newService)
   }
 
   async AddSubscriber(userId: string, serviceId: string) {
     return new Promise<void>((resolve) => {
       const service = services.find((x) => x.id === serviceId)
+
+      service && (service.subscribers = service.subscribers ?? [])
       service?.subscribers?.push({ userId, serviceId, payments: [] })
       resolve()
     })
@@ -33,6 +35,7 @@ export class ServiceRepository {
           const res = docs.map(
             (x): IService => {
               const service = x.data()
+              console.log(service)
               return {
                 name: service.name,
                 id: x.id,
@@ -46,6 +49,7 @@ export class ServiceRepository {
                   maxParticipants: 5,
                   currentParticipants: 1,
                 },
+                subscribers: service.subscribers && [...service.subscribers],
               }
             }
           )

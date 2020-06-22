@@ -11,7 +11,6 @@ const SeedData = () => {
     services.map((service) => serviceRepository.Add(service))
   }
   const seedUsers = () => {
-    console.log(state.user)
     users
       .filter((u) => u.id !== state.user?.id)
       .map((user) => userRepository.AddNewUser(user))

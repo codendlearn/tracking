@@ -1,5 +1,5 @@
+import { UserCollection } from '../common/models/Constants'
 /* eslint-disable class-methods-use-this */
-import * as Constants from '../common/models/Constants'
 import { IUser } from '../common/models/IUser'
 import { FirestoreService } from '../services/FirestoreService'
 
@@ -22,7 +22,7 @@ export class UserRepository {
   // eslint-disable-next-line class-methods-use-this
   GetUsers() {
     return new Promise<IUser[]>((resolve, error) => {
-      this.firebaseService.GetItems(Constants.UserCollection).then((docs) => {
+      this.firebaseService.GetItems(UserCollection).then((docs) => {
         const users = docs.map(
           (doc): IUser => {
             const user = doc.data()

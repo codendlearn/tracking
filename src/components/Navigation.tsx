@@ -97,7 +97,7 @@ const NavigationBar: React.FC = () => {
           <User />
         </Toolbar>
       </AppBar>
-      <Hidden smDown implementation="css">
+      <Hidden xsDown implementation="css">
         <Drawer
           className={classes.drawer}
           variant="permanent"

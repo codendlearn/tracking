@@ -134,7 +134,7 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
           {state.user?.id === props.ownerId && (
             <AddSubscriber
               users={users}
-              service={{ ...props }}
+              service={props}
               onAdd={(userId, serviceId) => {
                 serviceRepository.AddSubscriber(userId, serviceId)
               }}
