@@ -45,12 +45,13 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IAddSubscriberProps {
   users: IUser[]
   service: IService
+  subscribers?: string[]
   onAdd: (userId: string, serviceId: string) => void
 }
 
 const AddSubscriber: React.FC<IAddSubscriberProps> = (props) => {
   const classes = useStyles()
-  const { users, service, onAdd } = props
+  const { users, service, onAdd, subscribers } = props
   const subscribe = (userId: string) => {
     onAdd(userId, service?.id ?? '')
   }
@@ -61,8 +62,8 @@ const AddSubscriber: React.FC<IAddSubscriberProps> = (props) => {
         .filter((x) => x.id !== service.ownerId)
         .map((user) => {
           const isSubscriber =
-            service.subscribers !== undefined &&
-            service.subscribers?.findIndex((x) => x.userId === user.id) > -1
+            subscribers !== undefined &&
+            subscribers?.findIndex((x) => x === user.id) > -1
 
           return (
             <ListItem

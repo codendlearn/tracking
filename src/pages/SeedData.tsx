@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core'
+import { Button, Grid, Typography } from '@material-ui/core'
 import React from 'react'
 import { services, users } from '../common/data'
 import { useDependencies } from '../store/DependenciesStore'
@@ -17,15 +17,23 @@ const SeedData = () => {
   }
 
   return (
-    <>
-      <Button variant="outlined" color="primary" onClick={seedServices}>
-        Seed Services
-      </Button>
-
-      <Button variant="outlined" color="secondary" onClick={seedUsers}>
-        Seed Users
-      </Button>
-    </>
+    <Grid container direction="column" spacing={2}>
+      <Grid item>
+        <Typography>
+          Dev only - to insert seed data for testing purposes.
+        </Typography>
+      </Grid>
+      <Grid item>
+        <Button variant="outlined" color="primary" onClick={seedServices}>
+          Seed Services
+        </Button>
+      </Grid>
+      <Grid item>
+        <Button variant="outlined" color="secondary" onClick={seedUsers}>
+          Seed Users
+        </Button>
+      </Grid>
+    </Grid>
   )
 }
 

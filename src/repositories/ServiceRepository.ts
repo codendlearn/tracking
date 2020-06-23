@@ -16,12 +16,12 @@ export class ServiceRepository {
   }
 
   async AddSubscriber(userId: string, serviceId: string) {
-    return new Promise<void>((resolve) => {
+    return new Promise<IService>((resolve) => {
       const service = services.find((x) => x.id === serviceId)
 
       service && (service.subscribers = service.subscribers ?? [])
       service?.subscribers?.push({ userId, serviceId, payments: [] })
-      resolve()
+      resolve(service)
     })
   }
 

@@ -33,7 +33,8 @@
     "format": "prettier --write src/**/*.{ts,tsx,scss,css,json}",
     "isready": "npm run format && npm run lint && npm run build",
     "emulator": "firebase emulators:start --import=test",
-    "emulator-backup": "firebase emulators:export test"
+    "emulator-backup": "firebase emulators:export test",
+    "dev": "npm run emulator && npm start"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -57,18 +57,19 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
   const classes = useStyles()
   const { state } = useGlobalState()
   const [users, setUsers] = useState<IUser[]>([])
+  const [subscribers, setSubscribers] = useState<string[]>([])
   const { userRepository, serviceRepository } = useDependencies()
-
   const [expanded, setExpanded] = React.useState(false)
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
 
   useEffect(() => {
+    props.subscribers && setSubscribers(props.subscribers.map((s) => s.userId))
     userRepository.GetUsers().then((u) => {
       setUsers(u)
     })
-  }, [userRepository])
+  }, [subscribers])
 
   return (
     <Card className={classes.root}>
@@ -135,8 +136,11 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
             <AddSubscriber
               users={users}
               service={props}
+              subscribers={subscribers}
               onAdd={(userId, serviceId) => {
-                serviceRepository.AddSubscriber(userId, serviceId)
+                serviceRepository
+                  .AddSubscriber(userId, serviceId)
+                  .then((service) => subscribers?.push(userId))
               }}
             />
           )}
