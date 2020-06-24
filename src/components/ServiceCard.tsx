@@ -24,7 +24,8 @@ import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { IService } from '../common/models/IService'
 import { IUser } from '../common/models/IUser'
-import { useDependencies } from '../store/DependenciesStore'
+import { serviceRepository } from '../repositories/ServiceRepository'
+import { userRepository } from '../repositories/UserRepository'
 import { useGlobalState } from '../store/GlobalStore'
 import AddSubscriber from './AddSubscriber'
 
@@ -58,7 +59,6 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
   const { state } = useGlobalState()
   const [users, setUsers] = useState<IUser[]>([])
   const [subscribers, setSubscribers] = useState<string[]>([])
-  const { userRepository, serviceRepository } = useDependencies()
   const [expanded, setExpanded] = React.useState(false)
   const handleExpandClick = () => {
     setExpanded(!expanded)

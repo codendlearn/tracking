@@ -1,12 +1,11 @@
 import { Avatar, IconButton, Menu, MenuItem } from '@material-ui/core'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { useDependencies } from '../store/DependenciesStore'
+import { userRepository } from '../repositories/UserRepository'
 import { GlobalStateAction, useGlobalState } from '../store/GlobalStore'
 
 const User = () => {
   const { state, dispatch } = useGlobalState()
-  const { userRepository } = useDependencies()
   const history = useHistory()
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)

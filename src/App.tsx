@@ -2,13 +2,12 @@ import { CssBaseline, MuiThemeProvider, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import Navigation from './components/Navigation'
-import { useDependencies } from './store/DependenciesStore'
+import { userRepository } from './repositories/UserRepository'
 import { useGlobalState } from './store/GlobalStore'
 import theme from './theme'
 
 function App() {
   const { state, dispatch } = useGlobalState()
-  const { userRepository } = useDependencies()
   const [ready, setReady] = useState(false)
 
   useEffect(() => {

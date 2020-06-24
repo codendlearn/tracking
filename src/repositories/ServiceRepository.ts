@@ -1,27 +1,39 @@
 /* eslint-disable class-methods-use-this */
-import { services } from '../common/data'
+import { firestore } from 'firebase'
 import { ServiceCollection } from '../common/models/Constants'
 import { Interval, IService } from '../common/models/IService'
-import { FirestoreService } from '../services/FirestoreService'
 
-export class ServiceRepository {
-  firebaseService: FirestoreService
-
-  constructor(firebaseService: FirestoreService) {
-    this.firebaseService = firebaseService
-  }
-
+class ServiceRepository {
   async Add(newService: IService) {
-    return this.firebaseService.AddService(newService)
+    return new Promise<void>((resolve, error) => {
+      firestore()
+        .collection(ServiceCollection)
+        .doc(newService.id)
+        .set({ ...newService })
+        .then(() => {
+          resolve()
+        })
+        .catch((reason) => error(reason))
+    })
   }
 
   async AddSubscriber(userId: string, serviceId: string) {
     return new Promise<IService>((resolve) => {
-      const service = services.find((x) => x.id === serviceId)
+      const service = this.GetService(serviceId)
+    })
+  }
 
-      service && (service.subscribers = service.subscribers ?? [])
-      service?.subscribers?.push({ userId, serviceId, payments: [] })
-      resolve(service)
+  async GetService(serviceId: string) {
+    return new Promise<string>((resolve, reject) => {
+      firestore()
+        .collection(ServiceCollection)
+        .doc(serviceId)
+        .get()
+        .then((data) => {
+          const service = data.data()
+          console.log(service)
+          resolve('sdf')
+        })
     })
   }
 
@@ -29,13 +41,13 @@ export class ServiceRepository {
     return new Promise<IService[]>((resolve, reject) => {
       // setTimeout(() => resolve(services), 10)
 
-      this.firebaseService
-        .GetItems(ServiceCollection)
-        .then((docs) => {
-          const res = docs.map(
+      firestore()
+        .collection(ServiceCollection)
+        .get()
+        .then((result) => {
+          const res = result.docs.map(
             (x): IService => {
               const service = x.data()
-              console.log(service)
               return {
                 name: service.name,
                 id: x.id,
@@ -60,3 +72,5 @@ export class ServiceRepository {
     })
   }
 }
+
+export const serviceRepository = new ServiceRepository()

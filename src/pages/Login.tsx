@@ -2,13 +2,12 @@ import { Button } from '@material-ui/core'
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { IUser } from '../common/models/IUser'
-import { useDependencies } from '../store/DependenciesStore'
+import { userRepository } from '../repositories/UserRepository'
 import { GlobalStateAction, useGlobalState } from '../store/GlobalStore'
 
 const Login = () => {
   const history = useHistory()
   const { state, dispatch } = useGlobalState()
-  const { userRepository } = useDependencies()
   useEffect(() => {
     state.user && history.push('/')
   })

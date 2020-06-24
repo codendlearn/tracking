@@ -1,12 +1,12 @@
 import { Button, Grid, Typography } from '@material-ui/core'
 import React from 'react'
 import { services, users } from '../common/data'
-import { useDependencies } from '../store/DependenciesStore'
+import { serviceRepository } from '../repositories/ServiceRepository'
+import { userRepository } from '../repositories/UserRepository'
 import { useGlobalState } from '../store/GlobalStore'
 
 const SeedData = () => {
   const { state } = useGlobalState()
-  const { serviceRepository, userRepository } = useDependencies()
   const seedServices = () => {
     services.map((service) => serviceRepository.Add(service))
   }
