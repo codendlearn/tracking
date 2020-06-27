@@ -8,6 +8,7 @@ export enum GlobalStateAction {
   Error,
   LoggedIn,
   LoggedOut,
+  SetUsers,
 }
 
 export type Action =
@@ -16,6 +17,7 @@ export type Action =
   | { type: GlobalStateAction.Error; error: string }
   | { type: GlobalStateAction.LoggedIn; user: IUser }
   | { type: GlobalStateAction.LoggedOut }
+  | { type: GlobalStateAction.SetUsers; users: IUser[] }
 
 const initialUserState: IGlobalState = {
   hasError: false,
@@ -42,6 +44,8 @@ const reducer: React.Reducer<IGlobalState, Action> = (state, action) => {
       return { ...state, user: { ...action.user } }
     case GlobalStateAction.LoggedOut:
       return { ...state, user: undefined }
+    case GlobalStateAction.SetUsers:
+      return { ...state, users: action.users }
     default:
       return state
   }

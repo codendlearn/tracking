@@ -21,11 +21,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import ShareIcon from '@material-ui/icons/Share'
 import clsx from 'clsx'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { IService } from '../common/models/IService'
 import { IUser } from '../common/models/IUser'
 import { serviceRepository } from '../repositories/ServiceRepository'
-import { userRepository } from '../repositories/UserRepository'
 import { useGlobalState } from '../store/GlobalStore'
 import AddSubscriber from './AddSubscriber'
 
@@ -57,19 +56,14 @@ const useStyles = makeStyles((theme: Theme) =>
 const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
   const classes = useStyles()
   const { state } = useGlobalState()
-  const [users, setUsers] = useState<IUser[]>([])
-  const [subscribers, setSubscribers] = useState<string[]>([])
   const [expanded, setExpanded] = React.useState(false)
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
 
   useEffect(() => {
-    props.subscribers && setSubscribers(props.subscribers.map((s) => s.userId))
-    userRepository.GetUsers().then((u) => {
-      setUsers(u)
-    })
-  }, [subscribers])
+    // props.subscribers && setSubscribers(props.subscribers.map((s) => s.userId))
+  })
 
   return (
     <Card className={classes.root}>
@@ -128,19 +122,17 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse in={expanded}>
         <Divider />
         <CardContent>
           <Typography paragraph>Subscribers:</Typography>
           {state.user?.id === props.ownerId && (
             <AddSubscriber
-              users={users}
+              users={state.users ?? []}
               service={props}
-              subscribers={subscribers}
+              subscribers={props.subscribers?.map((x) => x.userId) ?? []}
               onAdd={(userId, serviceId) => {
-                serviceRepository
-                  .AddSubscriber(userId, serviceId)
-                  .then((service) => subscribers?.push(userId))
+                serviceRepository.AddSubscriber(userId, serviceId)
               }}
             />
           )}

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import './App.css'
 import Navigation from './components/Navigation'
 import { userRepository } from './repositories/UserRepository'
-import { useGlobalState } from './store/GlobalStore'
+import { GlobalStateAction, useGlobalState } from './store/GlobalStore'
 import theme from './theme'
 
 function App() {
@@ -16,7 +16,11 @@ function App() {
       userRepository.UpdateCurrentUser(dispatch)
     }
 
-    setReady(true)
+    userRepository.GetUsers().then((users) => {
+      dispatch({ type: GlobalStateAction.SetUsers, users })
+      setReady(true)
+    })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.user])
 

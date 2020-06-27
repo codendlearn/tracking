@@ -5,7 +5,7 @@ export interface IService {
   ownerId: string
   imageName: string
   subscription: ISubscription
-  subscribers?: ISubscribers[]
+  subscribers?: ISubscriber[]
 }
 
 export interface ISubscription {
@@ -16,7 +16,7 @@ export interface ISubscription {
   currentParticipants: number
 }
 
-export interface ISubscribers {
+export interface ISubscriber {
   serviceId: string
   userId: string
   payments: IPayment[]

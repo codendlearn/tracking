@@ -1,7 +1,12 @@
 /* eslint-disable class-methods-use-this */
 import { firestore } from 'firebase'
 import { ServiceCollection } from '../common/models/Constants'
-import { Interval, IService } from '../common/models/IService'
+import {
+  Interval,
+  IService,
+  ISubscriber,
+  ISubscription,
+} from '../common/models/IService'
 
 class ServiceRepository {
   async Add(newService: IService) {
@@ -19,20 +24,41 @@ class ServiceRepository {
 
   async AddSubscriber(userId: string, serviceId: string) {
     return new Promise<IService>((resolve) => {
-      const service = this.GetService(serviceId)
-    })
-  }
-
-  async GetService(serviceId: string) {
-    return new Promise<string>((resolve, reject) => {
       firestore()
         .collection(ServiceCollection)
         .doc(serviceId)
         .get()
         .then((data) => {
           const service = data.data()
-          console.log(service)
-          resolve('sdf')
+          if (service) {
+            let latestSubscribers: ISubscriber[] = service.subscribers ?? []
+            latestSubscribers = [
+              ...latestSubscribers,
+              { serviceId, userId, payments: [] },
+            ]
+            data.ref.update({ subscribers: latestSubscribers })
+          }
+        })
+    })
+  }
+
+  async GetService(serviceId: string) {
+    return new Promise<IService>((resolve, reject) => {
+      firestore()
+        .collection(ServiceCollection)
+        .doc(serviceId)
+        .get()
+        .then((data) => {
+          const serviceFrom = data.data()
+          serviceFrom &&
+            resolve({
+              name: serviceFrom.name,
+              displayOrder: serviceFrom.displayOrder,
+              ownerId: serviceFrom.ownerId,
+              subscription: serviceFrom.subscription as ISubscription,
+              subscribers: (serviceFrom.subscribers as ISubscriber[]) ?? [],
+              imageName: serviceFrom.imageName,
+            })
         })
     })
   }

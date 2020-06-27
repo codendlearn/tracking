@@ -2,24 +2,21 @@ import { Grid, Typography } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 import React, { useEffect, useState } from 'react'
 import { IService } from '../common/models/IService'
-import { IUser } from '../common/models/IUser'
 import ServiceCard from '../components/ServiceCard'
 import { serviceRepository } from '../repositories/ServiceRepository'
-import { userRepository } from '../repositories/UserRepository'
+import { useGlobalState } from '../store/GlobalStore'
 
 const Home = () => {
   const [services, setServices] = useState<IService[]>()
-  const [users, setUsers] = useState<IUser[]>()
+  const { state } = useGlobalState()
 
   const getOwnerDetails = (ownerId: string) =>
-    users && users.find((user) => user.id === ownerId)
+    state.users && state.users.find((user) => user.id === ownerId)
 
   useEffect(() => {
     serviceRepository.GetServices().then((servicesList: IService[]) => {
       setServices(servicesList)
     })
-
-    userRepository.GetUsers().then((usersList: IUser[]) => setUsers(usersList))
   })
 
   return services === undefined ? (
