@@ -16,10 +16,9 @@ import {
   Typography,
 } from '@material-ui/core'
 import { red } from '@material-ui/core/colors'
-import { Payment } from '@material-ui/icons'
+import AddIcon from '@material-ui/icons/Add'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-import ShareIcon from '@material-ui/icons/Share'
 import clsx from 'clsx'
 import React, { useEffect } from 'react'
 import { IService } from '../common/models/IService'
@@ -27,11 +26,13 @@ import { IUser } from '../common/models/IUser'
 import { serviceRepository } from '../repositories/ServiceRepository'
 import { useGlobalState } from '../store/GlobalStore'
 import AddSubscriber from './AddSubscriber'
+import ServiceStatus from './ServiceStatus'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       maxWidth: 345,
+      width: 345,
     },
     media: {
       backgroundSize: 'contain',
@@ -53,17 +54,26 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
+const ServiceCard: React.FC<IService & { user: IUser }> = (props) => {
   const classes = useStyles()
   const { state } = useGlobalState()
   const [expanded, setExpanded] = React.useState(false)
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
+  const subscribers = props.subscribers ?? []
 
   useEffect(() => {
     // props.subscribers && setSubscribers(props.subscribers.map((s) => s.userId))
   })
+
+  const canJoin = () => {
+    return (
+      state.user?.id !== props.ownerId &&
+      !subscribers.some((x) => x.userId === state.user?.id) &&
+      props.subscription.maxParticipants > subscribers.length
+    )
+  }
 
   return (
     <Card className={classes.root}>
@@ -93,24 +103,25 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
           title={props.name}
         />
         <CardContent>
-          <Typography variant="caption" color="textSecondary" component="p">
-            You don't have any dues...
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            This impressive paella is a perfect party dish and a fun meal to
-            cook together with your guests. Add 1 cup of frozen peas along with
-            the mussels, if you like.
-          </Typography>
+          <ServiceStatus service={{ ...props }} user={props.user} />
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing>
-        <Button color="primary">Pay now</Button>
-        <IconButton aria-label="add to favorites">
-          <Payment />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
+        {canJoin() && (
+          <Button
+            color="primary"
+            onClick={() => {
+              serviceRepository.AddSubscriber(
+                state.user?.id ?? '',
+                props.id ?? '',
+                false
+              )
+            }}
+            startIcon={<AddIcon />}
+          >
+            Join
+          </Button>
+        )}
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -130,10 +141,23 @@ const ServiceCard: React.FC<IService & { user?: IUser }> = (props) => {
             <AddSubscriber
               users={state.users ?? []}
               service={props}
-              subscribers={props.subscribers?.map((x) => x.userId) ?? []}
-              onAdd={(userId, serviceId) => {
-                serviceRepository.AddSubscriber(userId, serviceId)
+              onAdd={(userId: string, serviceId: string, approval: boolean) => {
+                approval
+                  ? serviceRepository.ApproveSubscriber(userId, serviceId)
+                  : serviceRepository.AddSubscriber(userId, serviceId, true)
               }}
+            />
+          )}
+          {state.user?.id !== props.ownerId && (
+            <AddSubscriber
+              users={
+                state.users?.filter((x) =>
+                  props.subscribers?.some(
+                    (a) => a.userId === x.id && a.isApproved
+                  )
+                ) ?? []
+              }
+              service={props}
             />
           )}
         </CardContent>

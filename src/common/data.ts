@@ -49,12 +49,15 @@ export const services: IService[] = [
       paymentInterval: Interval.Monthly,
       maxParticipants: 5,
       currentParticipants: 1,
+      startDate: new Date(2019, 8),
     },
     subscribers: [
       {
         userId: '2',
         serviceId: '1',
         payments: [],
+        subscribedOn: new Date(2019, 8),
+        isApproved: true,
       },
     ],
   },
@@ -70,6 +73,7 @@ export const services: IService[] = [
       paymentInterval: Interval.Yearly,
       maxParticipants: 5,
       currentParticipants: 1,
+      startDate: new Date(2019, 8),
     },
   },
   {
@@ -84,6 +88,7 @@ export const services: IService[] = [
       paymentInterval: Interval.Monthly,
       maxParticipants: 5,
       currentParticipants: 1,
+      startDate: new Date(2019, 8),
     },
   },
   {
@@ -91,13 +96,14 @@ export const services: IService[] = [
     name: 'Hotstar',
     displayOrder: 4,
     imageName: 'background.jpg',
-    ownerId: '15',
+    ownerId: '114178140160685284869', // codendlearn
     subscription: {
       serviceId: '4',
       amount: 1000,
       paymentInterval: Interval.Yearly,
       maxParticipants: 5,
       currentParticipants: 1,
+      startDate: new Date(2019, 8),
     },
   },
 ]

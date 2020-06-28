@@ -5,5 +5,5 @@ export interface IGlobalState {
   hasError: boolean
   user?: IUser
   error?: string
-  users?: IUser[]
+  users: IUser[]
 }

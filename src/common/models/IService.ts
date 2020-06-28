@@ -14,12 +14,15 @@ export interface ISubscription {
   amount: number
   maxParticipants: number
   currentParticipants: number
+  startDate: Date
 }
 
 export interface ISubscriber {
   serviceId: string
   userId: string
+  isApproved: boolean
   payments: IPayment[]
+  subscribedOn: Date
 }
 
 export interface IPayment {

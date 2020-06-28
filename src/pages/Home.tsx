@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@material-ui/core'
+import { Grid, Toolbar, Typography } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 import React, { useEffect, useState } from 'react'
 import { IService } from '../common/models/IService'
@@ -11,7 +11,7 @@ const Home = () => {
   const { state } = useGlobalState()
 
   const getOwnerDetails = (ownerId: string) =>
-    state.users && state.users.find((user) => user.id === ownerId)
+    state.users.find((user) => user.id === ownerId)
 
   useEffect(() => {
     serviceRepository.GetServices().then((servicesList: IService[]) => {
@@ -28,20 +28,47 @@ const Home = () => {
       ))}
     </Grid>
   ) : (
-    <Grid container spacing={4} direction="row">
-      {services.length === 0 ? (
-        <Typography>No services...</Typography>
-      ) : (
-        services.map((service) => {
-          const user = getOwnerDetails(service.ownerId)
-          return (
-            <Grid key={service.id} item>
-              <ServiceCard user={user} {...service} />
-            </Grid>
-          )
-        })
-      )}
-    </Grid>
+    <>
+      <Typography variant="h5">Your's</Typography>
+      <Grid container spacing={4} direction="row">
+        {services.length === 0 ? (
+          <Typography>No services...</Typography>
+        ) : (
+          services
+            .filter((x) => x.ownerId === state.user?.id)
+            .map((service) => {
+              const user = getOwnerDetails(service.ownerId)
+              return (
+                user && (
+                  <Grid key={service.id} item>
+                    <ServiceCard user={user} {...service} />
+                  </Grid>
+                )
+              )
+            })
+        )}
+      </Grid>
+      <Toolbar />
+      <Typography variant="h5">Their's</Typography>
+      <Grid container spacing={4} direction="row">
+        {services.length === 0 ? (
+          <Typography>No services...</Typography>
+        ) : (
+          services
+            .filter((x) => x.ownerId !== state.user?.id)
+            .map((service) => {
+              const user = getOwnerDetails(service.ownerId)
+              return (
+                user && (
+                  <Grid key={service.id} item>
+                    <ServiceCard user={user} {...service} />
+                  </Grid>
+                )
+              )
+            })
+        )}
+      </Grid>
+    </>
   )
 }
 

@@ -22,6 +22,7 @@ export type Action =
 const initialUserState: IGlobalState = {
   hasError: false,
   busy: false,
+  users: [],
 }
 
 const globalStore = createContext<{

@@ -31,3 +31,6 @@ firestore-debug.log
 ui-debug.log
 # emullator backup data
 test
+
+
+.firebase

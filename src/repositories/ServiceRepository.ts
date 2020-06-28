@@ -1,12 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { firestore } from 'firebase'
 import { ServiceCollection } from '../common/models/Constants'
-import {
-  Interval,
-  IService,
-  ISubscriber,
-  ISubscription,
-} from '../common/models/IService'
+import { IService, ISubscriber, ISubscription } from '../common/models/IService'
 
 class ServiceRepository {
   async Add(newService: IService) {
@@ -22,7 +17,7 @@ class ServiceRepository {
     })
   }
 
-  async AddSubscriber(userId: string, serviceId: string) {
+  async AddSubscriber(userId: string, serviceId: string, isApproved: boolean) {
     return new Promise<IService>((resolve) => {
       firestore()
         .collection(ServiceCollection)
@@ -34,8 +29,34 @@ class ServiceRepository {
             let latestSubscribers: ISubscriber[] = service.subscribers ?? []
             latestSubscribers = [
               ...latestSubscribers,
-              { serviceId, userId, payments: [] },
+              {
+                serviceId,
+                userId,
+                payments: [],
+                isApproved,
+                subscribedOn: new Date(),
+              },
             ]
+            data.ref.update({ subscribers: latestSubscribers })
+          }
+        })
+    })
+  }
+
+  async ApproveSubscriber(userId: string, serviceId: string) {
+    return new Promise<IService>((resolve) => {
+      firestore()
+        .collection(ServiceCollection)
+        .doc(serviceId)
+        .get()
+        .then((data) => {
+          const service = data.data()
+          if (service) {
+            const latestSubscribers: ISubscriber[] = service.subscribers ?? []
+            const subscriberToUpdate = latestSubscribers.find(
+              (s) => s.userId === userId
+            )
+            if (subscriberToUpdate) subscriberToUpdate.isApproved = true
             data.ref.update({ subscribers: latestSubscribers })
           }
         })
@@ -79,14 +100,8 @@ class ServiceRepository {
                 id: x.id,
                 displayOrder: service.displayOrder as number,
                 ownerId: service.ownerId,
-                imageName: '',
-                subscription: {
-                  serviceId: x.id,
-                  paymentInterval: Interval.Monthly,
-                  amount: 800,
-                  maxParticipants: 5,
-                  currentParticipants: 1,
-                },
+                imageName: service.imageName,
+                subscription: { ...service.subscription },
                 subscribers: service.subscribers && [...service.subscribers],
               }
             }

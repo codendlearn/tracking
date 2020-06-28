@@ -16,10 +16,13 @@ function App() {
       userRepository.UpdateCurrentUser(dispatch)
     }
 
-    userRepository.GetUsers().then((users) => {
-      dispatch({ type: GlobalStateAction.SetUsers, users })
-      setReady(true)
-    })
+    userRepository
+      .GetUsers()
+      .then((users) => {
+        dispatch({ type: GlobalStateAction.SetUsers, users })
+        setReady(true)
+      })
+      .catch((a) => setReady(true))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.user])
